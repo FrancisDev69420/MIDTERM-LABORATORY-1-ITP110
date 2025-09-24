@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(null); // null | 'sending' | 'sent' | 'error'
+  const [errorMessage, setErrorMessage] = useState('');
 
   const primary = '#4169E1';
 
@@ -15,7 +16,16 @@ const Contact = () => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
       setStatus('error');
+      setErrorMessage('All fields are required.');
       return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(form.email)) {
+      setStatus('error');
+      setErrorMessage('Please enter a valid email address.');
+      return;
+
     }
 
     setStatus('sending');
@@ -39,9 +49,9 @@ const Contact = () => {
             <div className="card" style={{ borderRadius: '12px', boxShadow: '0 10px 30px rgba(65,105,225,0.08)' }}>
               <div className="card-body">
                 <h5 className="card-title" style={{ color: primary }}>Office</h5>
-                <p className="card-text mb-1"><strong>Address:</strong> 123 Learning Ave, Example City</p>
-                <p className="card-text mb-1"><strong>Phone:</strong> (123) 456-7890</p>
-                <p className="card-text mb-0"><strong>Email:</strong> info@example.edu</p>
+                <p className="card-text mb-1"><strong>Address:</strong> Banay-Banay, Cabuyao, Philippines</p>
+                <p className="card-text mb-1"><strong>Phone:</strong> (+63)9123456789</p>
+                <p className="card-text mb-0"><strong>Email:</strong> itp112@pnc.edu</p>
               </div>
             </div>
           </div>
@@ -59,6 +69,7 @@ const Contact = () => {
                       value={form.name}
                       onChange={handleChange}
                       placeholder="Your full name"
+                      required
                     />
                   </div>
 
@@ -71,6 +82,7 @@ const Contact = () => {
                       value={form.email}
                       onChange={handleChange}
                       placeholder="you@example.com"
+                      required
                     />
                   </div>
 
@@ -83,10 +95,11 @@ const Contact = () => {
                       value={form.message}
                       onChange={handleChange}
                       placeholder="Tell us a bit about your inquiry"
+                      required
                     />
                   </div>
 
-                  <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex justify-content-center">
                     <button
                       type="submit"
                       className="btn"
@@ -95,22 +108,22 @@ const Contact = () => {
                         color: 'white',
                         borderRadius: '30px',
                         padding: '10px 22px',
-                        fontWeight: 600,
+                        fontWeight: 600,  
                       }}
                       disabled={status === 'sending'}
                     >
                       {status === 'sending' ? 'Sending...' : 'Send Message'}
                     </button>
+                  </div>
 
-                    <div style={{ minWidth: '160px', textAlign: 'right' }}>
-                      {status === 'error' && (
-                        <div className="text-danger small">Please fill out all fields.</div>
-                      )}
+                  <div className="d-flex justify-content-center mt-2">
+                    {status === 'error' && (
+                      <div className="text-danger small">{errorMessage}</div>
+                    )}
 
-                      {status === 'sent' && (
-                        <div className="text-success small">Thanks! We'll reply soon.</div>
-                      )}
-                    </div>
+                    {status === 'sent' && (
+                      <div className="text-success small">Thanks! We'll reply soon.</div>
+                    )}
                   </div>
                 </form>
               </div>

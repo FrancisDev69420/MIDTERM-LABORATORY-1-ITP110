@@ -99,7 +99,7 @@ const About = () => {
                                 display: 'flex',
                                 alignItems: 'center'
                             }}>
-                                {bullet} <span style={{ marginLeft: '4px' }}>{student.name}</span>
+                                <span style={{ marginLeft: '4px' }}>{student.name}</span>
                             </p>
                         </div>
                         <div style={{ width: '100%' }}>
